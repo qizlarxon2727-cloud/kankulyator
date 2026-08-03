@@ -6,28 +6,38 @@ const equals = document.querySelector('.equals');
 const decimal = document.querySelector('.decimal');
 operators.forEach(operator => {
     operator.addEventListener("click", () =>{
-        firstNumber = Number (display.value);
+        if(display.value === "Xato"){
+            display.value = "0";
+        }
+        if(display.value !==""){
+           firstNumber = Number (display.value);
+        }
+       
         currentOperator = operator.textContent;
         display.value ="";
-     console.log(firstNumber);
-     console.log(currentOperator);
     });
 });
 const display = document.querySelector("#display");
 numbers.forEach(number => {
     number.addEventListener("click",() =>{
+       if(display.value === "Xato"){
+        display.value = "";
+       }
        display.value += number.textContent;
-       console.log(number.textContent);
     });
 });
 const clear = document.querySelector(".clear");
     clear.addEventListener("click", () =>{
         display.value  ="";
-        console.log(clear.textContent);
+        
     });
 equals.addEventListener("click", () =>{
+     if(currentOperator === null){
+        return;
+    }
     let secondNumber = Number(display.value);
     let result;
+   
     if (currentOperator === "+"){
         result = firstNumber + secondNumber;
     }
@@ -37,8 +47,20 @@ equals.addEventListener("click", () =>{
     else if(currentOperator === "*"){
         result = firstNumber * secondNumber;
     }
-    else {
-        result = firstNumber / secondNumber;
+    
+    else if(currentOperator === "/"){
+        if(secondNumber === 0){
+            result = "Xato";
+        }
+        else{
+            result = firstNumber / secondNumber;
+        }
     }
     display.value = result;
+    currentOperator = null;
+});
+decimal.addEventListener("click", () =>{
+    if(!display.value.includes(".")){
+        display.value += ".";
+    }
 })
